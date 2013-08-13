@@ -1,0 +1,16 @@
+.wrapper{
+	width: 600px;
+	height: 500px;
+	margin: 100px auto;
+	position: relative;
+}
+.wrapper::after{
+	content: "";
+	clear: both;
+}
+.wrapper div{
+	float: left;
+	width: 33%;
+	height: 100%;
+	background: -webkit-linear-gradient(top, #fff 0%, #000 100%);
+}
