@@ -1,8 +1,10 @@
 .wrapper{
-	width: 600px;
-	height: 500px;
 	margin: 100px auto;
 	position: relative;
+	background: url(images/main_bg.png);
+	width: 890px;
+	height: 536px;
+	padding-left: 70px;
 }
 .wrapper::after{
 	content: "";
@@ -10,7 +12,27 @@
 }
 .wrapper div{
 	float: left;
-	width: 33%;
+	width: 235px;
 	height: 100%;
-	background: -webkit-linear-gradient(top, #fff 0%, #000 100%);
+	/*background: -webkit-linear-gradient(top, #fff 0%, #000 100%);*/
+	background: url(images/line_bg0.png);
+	margin-right: 5px;
+}
+.wrapper div:nth-child(2){
+	background-image: url(images/line_bg1.png);
+}
+.wrapper div:nth-child(3){
+	background-image: url(images/line_bg2.png);
+}
+.wrapper .go{
+	width: 98px;
+	height: 98px;
+	background: url(images/spin_btn.png);
+	position: absolute;
+	right: 38px;
+	top: 220px;
+	border: none;
+}
+.wrapper .go.pressed{
+	background-position: right top;
 }
