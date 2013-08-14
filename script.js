@@ -13,51 +13,77 @@
 			accelerationBase = 0,
 			accelerationChange = 0.02,
 			accelerationMax = 10,
+			speedMinimum = 2,
 			elHeight,
-			that = this;
+			that = this,
+			isIncreasingSpeed = true,
+			bgPosPrefix = "0 ",
+			bgPosPostfix = "px";
+
+		function reset(){
+			isIncreasingSpeed = true;
+			accelerationBase = 0;
+		}
 
 		function getAcceleration(isIncreasing) {
 			accelerationBase += (isIncreasing ? accelerationChange : accelerationChange * -1);
 			if (accelerationBase > accelerationMax) {
 				return accelerationMax;
 			}
-			if (accelerationBase < 0 - opt.DELTA) {
-				return 0 - opt.DELTA;
-			}
 			return Math.floor(accelerationBase);
+		}
+
+		function moveUntilEdge(){
+			var interval = setInterval(function(){
+				moveIt(0);
+				if(opt.curBgPostion % elHeight === 0){
+					clearInterval(interval);
+				}
+			}, opt.PERIOD);
+		}
+
+		function moveIt(acceleration){
+			opt.curBgPostion += opt.DELTA + acceleration;
+			if (opt.curBgPostion > opt.height) {
+				opt.curBgPostion -= opt.height;
+			}
+			el.style.backgroundPosition = bgPosPrefix + opt.curBgPostion + bgPosPostfix;
+		}
+
+		function spin() {
+			if (!interval) {
+				interval = setInterval(function () {
+					var acceleration = getAcceleration(isIncreasingSpeed);
+					if (opt.DELTA + acceleration < speedMinimum) {
+						moveUntilEdge();
+						that.stop();
+						return;
+					}
+					moveIt(acceleration);
+				}, opt.PERIOD);
+			}
 		}
 
 		for (i in options) {
 			opt[i] = options[i];
 		}
 		elHeight = Math.floor(opt.height / opt.order.length);
-		this.el = el;
-		this.spin = function () {
-			if (!interval) {
-				interval = setInterval(function () {
-					opt.curBgPostion += opt.DELTA + getAcceleration(true);
-					if (opt.curBgPostion === 0) {
-						that.stop();
-					}
-					if (opt.curBgPostion > opt.height){
-						opt.curBgPostion -= opt.height;
-					}
-					el.style.backgroundPosition = "0 " + opt.curBgPostion + "px";
-				}, opt.PERIOD);
-			}
-		};
 		this.stop = function () {
 			clearInterval(interval);
 			interval = null;
 		};
 		this.stopping = function () {
-
+			isIncreasingSpeed = false;
+		};
+		this.start = function(){
+			reset();
+			spin();
 		};
 	}
 
 	function SpinnerManager(objArray) {
 		var that = this;
-		["spin", "stop"].forEach(function (command) {
+		["start", "stopping"].forEach(function (command) {
 			that[command] = function () {
 				objArray.forEach(function (obj) {
 					obj[command]();
@@ -74,12 +100,12 @@
 		buttonClass = "go",
 		opt = {
 			PERIOD: 5,
-			DELTA: 2
+			DELTA: 4
 		};
 	Array.prototype.forEach.apply(spinEls, [function (el, index) {
 		var i;
 		for (i in opt) {
-			opt[i] = opt[i] * (index + 1);
+			opt[i] = opt[i] * (index + 1) / 2;
 		}
 		opt["order"] = el.getAttribute("data-el-order").split(",");
 		opt["height"] = parseInt(el.getAttribute("data-el-height"));
@@ -87,10 +113,10 @@
 	}]);
 	spinnerManager = new SpinnerManager(spinObjs);
 	startButton.addEventListener("click", function () {
-		this.className = pressedButtonClass;
-		spinnerManager.spin();
+		startButton.className = pressedButtonClass;
+		spinnerManager.start();
 		setTimeout(function () {
-			spinnerManager.stop();
+			spinnerManager.stopping();
 			startButton.className = buttonClass;
 		}, 5000);
 	});
