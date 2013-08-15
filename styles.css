@@ -10,18 +10,17 @@
 	content: "";
 	clear: both;
 }
-.wrapper div{
+.wrapper  div[data-el-order]{
 	float: left;
 	width: 235px;
 	height: 100%;
-	/*background: -webkit-linear-gradient(top, #fff 0%, #000 100%);*/
 	background: url(images/line_bg0.png);
 	margin-right: 5px;
 }
-.wrapper div:nth-child(2){
+.wrapper div[data-el-order]:nth-child(2){
 	background-image: url(images/line_bg1.png);
 }
-.wrapper div:nth-child(3){
+.wrapper  div[data-el-order]:nth-child(3){
 	background-image: url(images/line_bg2.png);
 }
 .wrapper .go{
@@ -33,6 +32,72 @@
 	top: 220px;
 	border: none;
 }
+.wrapper .go:active,
+.wrapper .go:focus{
+	outline:none;
+	border:none;
+}
 .wrapper .go.pressed{
 	background-position: right top;
+}
+.wrapper .bet-lines{
+	width: 770px;
+	height: 554px;
+	position: absolute;
+	left: 40px;
+	top: -5px;
+}
+.wrapper .bet-lines div{
+	background: url(images/bet_lines.png) 0 -25px no-repeat;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.wrapper .bet-lines div:nth-child(2){
+	background-position: 0 140px;
+}
+.wrapper .bet-lines div:nth-child(3){
+	background-position: 0 -190px;
+}
+.wrapper .bet-lines div:nth-child(4){
+	background-position: -870px 0;
+}
+.wrapper .bet-lines div:nth-child(5){
+	background-position: -1690px 0;
+}
+.wrapper .bet-lines.nth-0 div:nth-child(1),
+.wrapper .bet-lines.nth-1 div:nth-child(2),
+.wrapper .bet-lines.nth-2 div:nth-child(3),
+.wrapper .bet-lines.nth-3 div:nth-child(4),
+.wrapper .bet-lines.nth-4 div:nth-child(5){
+	opacity: 1;
+}
+.wrapper .loot{
+	position: absolute;
+	left: 10px;
+	bottom: -50px;
+	color: #00baff;
+}
+.wrapper .loot output{
+	display: inline;
+}
+.wrapper .broke-alert{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background: rgba(0,0,0,0.5);
+	box-sizing: border-box;
+	padding-top: 230px;
+	font-size: 60px;
+	color: #00baff;
+	display: none;
+}
+.wrapper .broke-alert.shown{
+	display: block;
 }
