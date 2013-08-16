@@ -48,7 +48,7 @@
 	top: -5px;
 }
 .wrapper .bet-lines div{
-	background: url(images/bet_lines.png) 0 -25px no-repeat;
+	background: url(images/bet_lines.png) 0 -190px no-repeat;
 	width: 100%;
 	height: 100%;
 	opacity: 0;
@@ -57,10 +57,10 @@
 	top: 0;
 }
 .wrapper .bet-lines div:nth-child(2){
-	background-position: 0 140px;
+	background-position: 0 -25px;
 }
 .wrapper .bet-lines div:nth-child(3){
-	background-position: 0 -190px;
+	background-position: 0 140px;
 }
 .wrapper .bet-lines div:nth-child(4){
 	background-position: -870px 0;
